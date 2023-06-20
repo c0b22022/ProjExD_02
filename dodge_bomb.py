@@ -11,6 +11,11 @@ delta = {
     pg.K_RIGHT: (+5, 0),
 }
 
+vector ={
+    sum_v[0, -5]: pg.transform.rotozoom(kk_img,90,1.0),
+
+    }
+
 
 def check_bound(rect: pg.Rect) -> tuple[bool,bool]:
     yoko, tate = True, True
@@ -19,6 +24,7 @@ def check_bound(rect: pg.Rect) -> tuple[bool,bool]:
     if rect.top < 0 or HEIGHT < rect.bottom:  # 縦方向判定
         tate = False
     return yoko, tate
+
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
@@ -38,6 +44,8 @@ def main():
     vx, vy = +5, +5
     clock = pg.time.Clock()
     tmr = 0
+
+
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
@@ -56,6 +64,12 @@ def main():
         kk_rct.move_ip(sum_mv)
         if check_bound(kk_rct) != (True,True):
             kk_rct.move_ip(-sum_mv[0],-sum_mv[1])
+
+        sum_mv = [0, 0]
+        for l,mv in vector.items():
+            if key_lst[l]:
+                sum_mv[0] += mv[0]
+                sum_mv[1] += mv[1]
 
         screen.blit(bg_img, [0, 0])
         screen.blit(kk_img, kk_rct)
@@ -76,3 +90,14 @@ if __name__ == "__main__":
     main()
     pg.quit()
     sys.exit()
+
+
+"""
+pg.transform.rotozoom(kk_img,45,1.0),
+    pg.transform.flip(kk_img, True, False),
+    pg.transform.rotozoom(kk_img,-45,1.0),
+    pg.transform.rotozoom(kk_img,90,1.0),
+    pg.transform.rotozoom(kk_img,-90,1.0),
+    pg.transform.rotozoom(kk_img,135,1.0),
+    pg.transform.rotozoom(kk_img,-135,1.0)
+"""
